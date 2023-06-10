@@ -32,7 +32,7 @@ const Header = () => {
         <nav>
           <ul className="flex gap-3">
             {navLinks.map(({ label, link }) => (
-              <li>
+              <li key={link}>
                 <Link className="hover:no-underline underline text-xl" to={link}>
                   {label}
                 </Link>
