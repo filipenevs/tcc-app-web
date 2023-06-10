@@ -1,5 +1,5 @@
 import { ReactNode } from 'react'
 
-export interface PageContainerProps {
+export interface ApplicationWrapperProps {
   children: ReactNode
 }
