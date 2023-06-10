@@ -19,7 +19,7 @@ const ModalWrapper: React.FC<ModalWrapperProps> = ({
 
   return (
     <div
-      className="absolute w-full h-full bg-black bg-opacity-30 top-0 right-0 flex justify-center items-center"
+      className="absolute w-full h-full bg-black bg-opacity-30 top-0 right-0 flex justify-center items-center cursor-default"
       onClick={handleOnOverlayClick}
     >
       <div className="bg-white p-5 rounded-xl">{children}</div>
