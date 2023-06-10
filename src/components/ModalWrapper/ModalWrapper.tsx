@@ -7,7 +7,12 @@ const ModalWrapper: React.FC<ModalWrapperProps> = ({
   onOverlayClick,
   preventCloseOnOverlayClick,
 }) => {
-  function handleOnOverlayClick() {
+  function handleOnOverlayClick({
+    target,
+    currentTarget,
+  }: React.MouseEvent<HTMLDivElement, MouseEvent>) {
+    if (currentTarget !== target) return
+
     if (!preventCloseOnOverlayClick) closeFunction()
     else onOverlayClick && onOverlayClick()
   }
