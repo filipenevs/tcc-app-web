@@ -4,9 +4,7 @@ import { ApplicationWrapperProps } from './interface'
 const PageContainer: React.FC<ApplicationWrapperProps> = ({ children }) => {
   return (
     <div className="h-full w-full flex">
-      <div className="m-5 p-5 bg-slate-100 grow rounded-2xl flex flex-col gap-5">
-        {children}
-      </div>
+      <div className="m-5 p-5 grow rounded-2xl flex flex-col gap-5">{children}</div>
     </div>
   )
 }
