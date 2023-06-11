@@ -58,9 +58,17 @@ const usersSlice = createSlice({
         ),
       }
     },
+    deleteUser(state, action: PayloadAction<string>) {
+      if (!state.data) return
+
+      return {
+        ...state,
+        data: state.data.filter(({ id }) => id !== action.payload),
+      }
+    },
   },
 })
 
-export const { initLoading, insertUsersData, insertFilter, updateUser } =
+export const { initLoading, insertUsersData, insertFilter, updateUser, deleteUser } =
   usersSlice.actions
 export default usersSlice.reducer

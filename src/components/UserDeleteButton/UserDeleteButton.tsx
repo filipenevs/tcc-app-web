@@ -2,26 +2,26 @@ import React, { useState } from 'react'
 
 import ConfirmModal from '../ConfirmModal/ConfirmModal'
 
-import { UserApproveButtonProps } from './interface'
+import { UserDeleteButtonProps } from './interface'
 import UsersService from '../../api/services/users'
 import { useAppDispatch } from '../../hooks/redux'
-import { updateUser } from '../../store/reducers/users'
+import { deleteUser as deleteUserAction } from '../../store/reducers/users'
 
-const UserApproveButton: React.FC<UserApproveButtonProps> = ({ userId }) => {
+const UserDeleteButton: React.FC<UserDeleteButtonProps> = ({ userId }) => {
   const [isConfirmOpen, setIsConfirmOpen] = useState(false)
   const dispatch = useAppDispatch()
 
-  async function handleOnClickAprroveButton(
+  async function handleOnClickDeleteButton(
     event: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) {
     event.stopPropagation()
     setIsConfirmOpen(true)
   }
 
-  async function approveUser() {
+  async function deleteUser() {
     setIsConfirmOpen(false)
-    const userData = await UsersService.approveUser(userId)
-    dispatch(updateUser(userData))
+    await UsersService.deleteUser(userId)
+    dispatch(deleteUserAction(userId))
   }
 
   function closeConfirmModal() {
@@ -32,19 +32,19 @@ const UserApproveButton: React.FC<UserApproveButtonProps> = ({ userId }) => {
     <>
       {isConfirmOpen && (
         <ConfirmModal
-          content="Deseja realmente confirmar a aprovação do usuário selecionado"
-          confirmButtonAction={approveUser}
+          content="Deseja realmente deletar o registro do usuário selecionado"
+          confirmButtonAction={deleteUser}
           cancelButtonAction={closeConfirmModal}
         />
       )}
       <button
-        className="rounded-md bg-green-400 hover:bg-green-500 py-2 px-5 font-medium"
-        onClick={handleOnClickAprroveButton}
+        className="rounded-md bg-red-400 hover:bg-red-500 py-2 px-5 font-medium"
+        onClick={handleOnClickDeleteButton}
       >
-        Aprovar Usuário
+        Excluir
       </button>
     </>
   )
 }
 
-export default UserApproveButton
+export default UserDeleteButton

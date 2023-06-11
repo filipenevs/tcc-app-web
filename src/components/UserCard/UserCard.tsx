@@ -3,6 +3,7 @@ import React from 'react'
 import { UserCardProps } from './interface'
 import UserApprovedLabel from '../UserApprovedLabel/UserApprovedLabel'
 import UserApproveButton from '../UserApproveButton/UserApproveButton'
+import UserDeleteButton from '../UserDeleteButton/UserDeleteButton'
 
 const UserCard: React.FC<UserCardProps> = ({
   id,
@@ -24,6 +25,7 @@ const UserCard: React.FC<UserCardProps> = ({
       </span>
       <div className="col-span-2 flex justify-end gap-3">
         {!approved && <UserApproveButton userId={id} />}
+        <UserDeleteButton userId={id} />
         <button className="rounded-md bg-gray-300 hover:bg-gray-400 py-2 px-5 font-medium">
           Editar
         </button>
