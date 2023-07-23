@@ -8,7 +8,7 @@ const initialState: AppState = {
   sideBarExpanded: true,
 }
 
-const usersSlice = createSlice({
+const appSlice = createSlice({
   name: 'app',
   initialState,
   reducers: {
@@ -21,5 +21,5 @@ const usersSlice = createSlice({
   },
 })
 
-export const { toogleSideBarExpand } = usersSlice.actions
-export default usersSlice.reducer
+export const { toogleSideBarExpand } = appSlice.actions
+export default appSlice.reducer
