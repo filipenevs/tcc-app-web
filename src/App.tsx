@@ -2,8 +2,11 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom'
 
 import ApplicationWrapper from './components/ApplicationWrapper'
 import Header from './components/Header/'
-import Users from './Pages/Users/Users'
-import PageContainer from './components/PageContainer/PageContainer.tsx'
+import PageWrapper from './components/PageWrapper'
+import SideBar from './components/SideBar/'
+import PageDivider from './components/PageDivider'
+import PageContainer from './components/PageContainer'
+import Users from './Pages/Users'
 
 import './App.css'
 
@@ -12,12 +15,16 @@ function App() {
     <BrowserRouter>
       <ApplicationWrapper>
         <Header />
-        <PageContainer>
-          <Routes>
-            <Route path="/" element={<></>} />
-            <Route path="/users" element={<Users />} />
-          </Routes>
-        </PageContainer>
+        <PageWrapper>
+          <SideBar />
+          <PageDivider />
+          <PageContainer>
+            <Routes>
+              <Route path="/" element={<></>} />
+              <Route path="/users" element={<Users />} />
+            </Routes>
+          </PageContainer>
+        </PageWrapper>
       </ApplicationWrapper>
     </BrowserRouter>
   )

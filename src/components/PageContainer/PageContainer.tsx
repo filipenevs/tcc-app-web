@@ -3,10 +3,8 @@ import { PageContainerProps } from './interface'
 
 const PageContainer: React.FC<PageContainerProps> = ({ children }) => {
   return (
-    <div className="h-full w-full flex">
-      <div className="p-5 bg-slate-100 grow rounded-2xl flex flex-col gap-5">
-        {children}
-      </div>
+    <div className="h-full flex grow">
+      <div className="bg-slate-100 grow rounded-2xl flex flex-col gap-5">{children}</div>
     </div>
   )
 }
