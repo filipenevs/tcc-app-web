@@ -12,7 +12,7 @@ const UserDeleteButton: React.FC<UserDeleteButtonProps> = ({ userId }) => {
   const dispatch = useAppDispatch()
 
   async function handleOnClickDeleteButton(
-    event: React.MouseEvent<HTMLButtonElement, MouseEvent>
+    event: React.MouseEvent<HTMLButtonElement, MouseEvent>,
   ) {
     event.stopPropagation()
     setIsConfirmOpen(true)

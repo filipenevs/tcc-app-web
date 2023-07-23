@@ -54,7 +54,7 @@ const usersSlice = createSlice({
       return {
         ...state,
         data: state.data.map((oldUser) =>
-          oldUser.id === updatedUser.id ? updatedUser : oldUser
+          oldUser.id === updatedUser.id ? updatedUser : oldUser,
         ),
       }
     },

@@ -12,7 +12,7 @@ const UserApproveButton: React.FC<UserApproveButtonProps> = ({ userId }) => {
   const dispatch = useAppDispatch()
 
   async function handleOnClickAprroveButton(
-    event: React.MouseEvent<HTMLButtonElement, MouseEvent>
+    event: React.MouseEvent<HTMLButtonElement, MouseEvent>,
   ) {
     event.stopPropagation()
     setIsConfirmOpen(true)
