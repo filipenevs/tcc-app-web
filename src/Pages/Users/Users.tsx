@@ -28,7 +28,7 @@ const Users = () => {
         <PageTitle text="Usuários" />
         <div className="flex gap-3">
           <button className="rounded-md bg-slate-200 py-2 px-5 font-medium border-4 border-slate-200 hover:border-slate-300">
-            Adicionar filtros
+            Filtros/Ordenação
           </button>
           <button
             className="rounded-md bg-slate-300 py-2 px-5 font-medium border-4 border-slate-300 hover:border-slate-400"
