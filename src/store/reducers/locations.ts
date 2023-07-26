@@ -39,7 +39,7 @@ const locationsSlide = createSlice({
         data: action.payload,
       }
     },
-    selectState(state, action: PayloadAction<string>) {
+    selectState(state, action: PayloadAction<string | null>) {
       return {
         ...state,
         selection: {
@@ -49,7 +49,7 @@ const locationsSlide = createSlice({
         },
       }
     },
-    selectCity(state, action: PayloadAction<string>) {
+    selectCity(state, action: PayloadAction<string | null>) {
       return {
         ...state,
         selection: {
@@ -59,7 +59,7 @@ const locationsSlide = createSlice({
         },
       }
     },
-    selectNeighborhood(state, action: PayloadAction<string>) {
+    selectNeighborhood(state, action: PayloadAction<string | null>) {
       return {
         ...state,
         selection: {
