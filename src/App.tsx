@@ -10,6 +10,7 @@ import PageContainer from './components/PageContainer'
 import Users from './Pages/Users'
 
 import './App.css'
+import 'react-toastify/dist/ReactToastify.css';
 
 function App() {
   return (
