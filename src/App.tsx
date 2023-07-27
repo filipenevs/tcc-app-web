@@ -1,4 +1,5 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import { ToastContainer } from 'react-toastify';
 
 import ApplicationWrapper from './components/ApplicationWrapper'
 import Header from './components/Header/'
@@ -14,6 +15,7 @@ function App() {
   return (
     <BrowserRouter>
       <ApplicationWrapper>
+        <ToastContainer />
         <Header />
         <PageWrapper>
           <SideBar />
