@@ -15,7 +15,18 @@ function App() {
   return (
     <BrowserRouter>
       <ApplicationWrapper>
-        <ToastContainer />
+        <ToastContainer
+          position="top-right"
+          autoClose={4500}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+          theme="light"
+        />
         <Header />
         <PageWrapper>
           <SideBar />
