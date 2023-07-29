@@ -8,7 +8,7 @@ import ConfirmModal from '../ConfirmModal/ConfirmModal'
 import LocationsButtons from '../LocationsButtons/LocationsButtons'
 
 import { useAppDispatch, useAppSelector } from '../../hooks/redux'
-import { selectCity } from '../../store/reducers/locations'
+import { removeCity, selectCity } from '../../store/reducers/locations'
 
 import { CityCardProps } from './interface'
 
@@ -38,6 +38,7 @@ const CityCard: React.FC<CityCardProps> = ({ city: { id, name, neighborhoods, st
   function handleOnConfirmDelete() {
     CityService.delete(id)
       .then(() => {
+        dispatch(removeCity({ stateId, cityId: id }))
         toast.success('Cidade excluída com sucesso!')
       })
       .catch(({ message }) => {

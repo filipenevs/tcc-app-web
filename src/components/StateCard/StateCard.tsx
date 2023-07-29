@@ -8,7 +8,7 @@ import CityCard from '../CityCard/CityCard'
 import ConfirmModal from '../ConfirmModal/ConfirmModal'
 
 import { useAppDispatch, useAppSelector } from '../../hooks/redux'
-import { selectState } from '../../store/reducers/locations'
+import { removeState, selectState } from '../../store/reducers/locations'
 
 import { StateCardProps } from './interface'
 
@@ -38,6 +38,7 @@ const StateCard: React.FC<StateCardProps> = ({ state: { id, uf, name, cities } }
   function handleOnConfirmDelete() {
     StateService.delete(id)
       .then(() => {
+        dispatch(removeState(id))
         toast.success('Estado excluído com sucesso!')
       })
       .catch(({ message }) => {

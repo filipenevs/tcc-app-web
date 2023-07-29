@@ -6,14 +6,14 @@ import LocationsButtons from '../LocationsButtons/LocationsButtons'
 import ConfirmModal from '../ConfirmModal/ConfirmModal'
 
 import { useAppDispatch, useAppSelector } from '../../hooks/redux'
-import { selectNeighborhood } from '../../store/reducers/locations'
+import { removeNeighborhood, selectNeighborhood } from '../../store/reducers/locations'
 
 import { NeighborhoodCardProps } from './interface'
 
 import NeighborhoodService from '../../api/services/neighborhood'
 
 const NeighborhoodCard: React.FC<NeighborhoodCardProps> = ({
-  neighborhood: { id, name },
+  neighborhood: { id, name, cityId },
   stateId
 }) => {
   const dispatch = useAppDispatch()
@@ -36,6 +36,7 @@ const NeighborhoodCard: React.FC<NeighborhoodCardProps> = ({
   function handleOnConfirmDelete() {
     NeighborhoodService.delete(id)
       .then(() => {
+        dispatch(removeNeighborhood({ stateId, cityId, neighborhoodId: id }))
         toast.success('Bairro excluído com sucesso!')
       })
       .catch(({ message }) => {
