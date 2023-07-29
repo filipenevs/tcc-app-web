@@ -13,8 +13,11 @@ import { removeCity, selectCity } from '../../store/reducers/locations'
 import { CityCardProps } from './interface'
 
 import CityService from '../../api/services/city'
+import { normalize } from '../../utils/string'
 
-const CityCard: React.FC<CityCardProps> = ({ city: { id, name, neighborhoods, stateId } }) => {
+const CityCard: React.FC<CityCardProps> = ({
+  city: { id, name, neighborhoods, stateId },
+}) => {
   const dispatch = useAppDispatch()
   const { city: selectedCity } = useAppSelector(({ locations }) => locations.selection)
 
@@ -24,7 +27,7 @@ const CityCard: React.FC<CityCardProps> = ({ city: { id, name, neighborhoods, st
   const isSelectedCity = selectedCity === id
 
   const filteredNeighborhoods = neighborhoods.filter(({ name }) =>
-    name.toLowerCase().includes(neighborhoodQuery),
+    normalize(name).includes(neighborhoodQuery),
   )
 
   function handleOnCityClick() {
@@ -82,7 +85,11 @@ const CityCard: React.FC<CityCardProps> = ({ city: { id, name, neighborhoods, st
           </div>
 
           {filteredNeighborhoods.map((neighborhood) => (
-            <NeighborhoodCard key={neighborhood.id} neighborhood={neighborhood} stateId={stateId} />
+            <NeighborhoodCard
+              key={neighborhood.id}
+              neighborhood={neighborhood}
+              stateId={stateId}
+            />
           ))}
         </div>
       )}

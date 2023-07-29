@@ -13,6 +13,7 @@ import { removeState, selectState } from '../../store/reducers/locations'
 import { StateCardProps } from './interface'
 
 import StateService from '../../api/services/state'
+import { normalize } from '../../utils/string'
 
 const StateCard: React.FC<StateCardProps> = ({ state: { id, uf, name, cities } }) => {
   const dispatch = useAppDispatch()
@@ -23,9 +24,7 @@ const StateCard: React.FC<StateCardProps> = ({ state: { id, uf, name, cities } }
 
   const isSelectedState = selectedState === id
 
-  const filteredCities = cities.filter(({ name }) =>
-    name.toLowerCase().includes(cityQuery),
-  )
+  const filteredCities = cities.filter(({ name }) => normalize(name).includes(cityQuery))
 
   function handleOnStateClick() {
     dispatch(selectState(isSelectedState ? null : id))

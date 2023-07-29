@@ -1,13 +1,14 @@
 import React from 'react'
 
 import { LocationsFilterProps } from './interface'
+import { normalize } from '../../utils/string'
 
 const LocationsFilter: React.FC<LocationsFilterProps> = ({
   locationType,
   onChangeFilter,
 }) => {
   function handleOnChangeField({ target }: React.ChangeEvent<HTMLInputElement>) {
-    onChangeFilter(target.value.trim().toLowerCase())
+    onChangeFilter(normalize(target.value))
   }
 
   return (
