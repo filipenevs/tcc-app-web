@@ -14,7 +14,7 @@ import { CityCardProps } from './interface'
 
 import CityService from '../../api/services/city'
 
-const CityCard: React.FC<CityCardProps> = ({ city: { id, name, neighborhoods } }) => {
+const CityCard: React.FC<CityCardProps> = ({ city: { id, name, neighborhoods, stateId } }) => {
   const dispatch = useAppDispatch()
   const { city: selectedCity } = useAppSelector(({ locations }) => locations.selection)
 
@@ -81,7 +81,7 @@ const CityCard: React.FC<CityCardProps> = ({ city: { id, name, neighborhoods } }
           </div>
 
           {filteredNeighborhoods.map((neighborhood) => (
-            <NeighborhoodCard key={neighborhood.id} neighborhood={neighborhood} />
+            <NeighborhoodCard key={neighborhood.id} neighborhood={neighborhood} stateId={stateId} />
           ))}
         </div>
       )}

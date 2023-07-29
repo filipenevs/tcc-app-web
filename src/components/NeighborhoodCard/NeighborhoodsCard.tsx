@@ -14,6 +14,7 @@ import NeighborhoodService from '../../api/services/neighborhood'
 
 const NeighborhoodCard: React.FC<NeighborhoodCardProps> = ({
   neighborhood: { id, name },
+  stateId
 }) => {
   const dispatch = useAppDispatch()
   const { neighborhood: selectedNeighborhood } = useAppSelector(
