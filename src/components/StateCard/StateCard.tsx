@@ -36,7 +36,7 @@ const StateCard: React.FC<StateCardProps> = ({ state: { id, uf, name, cities } }
   }
 
   function handleOnConfirmDelete() {
-    StateService.deleteState(id)
+    StateService.delete(id)
       .then(() => {
         toast.success('Estado excluído com sucesso!')
       })

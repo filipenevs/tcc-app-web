@@ -12,7 +12,7 @@ class StateService {
     }
   }
 
-  static async deleteState(stateId: string) {
+  static async delete(stateId: string) {
     try {
       const response = await mainApi.delete(`${this.baseUrl}/${stateId}`)
       return response.data
