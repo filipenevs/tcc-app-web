@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import classNames from 'classnames'
+import { toast } from 'react-toastify'
 
 import NeighborhoodCard from '../NeighborhoodCard/NeighborhoodsCard'
 import LocationsFilter from '../LocationsFilter/LocationsFilter'
@@ -10,6 +11,8 @@ import { useAppDispatch, useAppSelector } from '../../hooks/redux'
 import { selectCity } from '../../store/reducers/locations'
 
 import { CityCardProps } from './interface'
+
+import CityService from '../../api/services/city'
 
 const CityCard: React.FC<CityCardProps> = ({ city: { id, name, neighborhoods } }) => {
   const dispatch = useAppDispatch()
@@ -32,7 +35,18 @@ const CityCard: React.FC<CityCardProps> = ({ city: { id, name, neighborhoods } }
     setIsDeleteOpen((prevValue) => !prevValue)
   }
 
-  function handleOnConfirmDelete() {}
+  function handleOnConfirmDelete() {
+    CityService.delete(id)
+      .then(() => {
+        toast.success('Cidade excluída com sucesso!')
+      })
+      .catch(({ message }) => {
+        toast.error(message)
+      })
+      .finally(() => {
+        setIsDeleteOpen(false)
+      })
+  }
 
   return (
     <>
