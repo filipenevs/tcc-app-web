@@ -32,7 +32,7 @@ const SideBar = () => {
   useEffect(() => {
     const currentLink = links.find(({ link }) => link === pathname)
 
-    document.title = `Sparklly Admin${currentLink && ` - ${currentLink.label}`}`
+    document.title = `Sparklly Admin${currentLink ? ` - ${currentLink.label}` : ''}`
   }, [pathname])
 
   return (
