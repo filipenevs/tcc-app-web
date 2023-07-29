@@ -68,9 +68,78 @@ const locationsSlide = createSlice({
         },
       }
     },
+    removeState(state, action: PayloadAction<string>) {
+      if (!state.data) return state
+
+      const newData = state.data.filter(({ id }) => id !== action.payload)
+
+      return {
+        ...state,
+        data: newData,
+      }
+    },
+    removeCity(state, action: PayloadAction<{ stateId: string; cityId: string }>) {
+      if (!state.data) return state
+
+      const { payload } = action
+      const { stateId, cityId } = payload
+
+      const newData = state.data.map((currentState) => {
+        if (currentState.id !== stateId) return currentState
+
+        return {
+          ...currentState,
+          cities: currentState.cities.filter(({ id }) => id !== cityId),
+        }
+      })
+
+      return {
+        ...state,
+        data: newData,
+      }
+    },
+    removeNeighborhood(
+      state,
+      action: PayloadAction<{ stateId: string; cityId: string; neighborhoodId: string }>,
+    ) {
+      if (!state.data) return state
+
+      const { payload } = action
+      const { stateId, cityId, neighborhoodId } = payload
+
+      const newData = state.data.map((currentState) => {
+        if (currentState.id !== stateId) return currentState
+
+        const newCitiesData = currentState.cities.map((city) => {
+          if (city.id !== cityId) return city
+
+          return {
+            ...city,
+            neighborhoods: city.neighborhoods.filter(({ id }) => id !== neighborhoodId),
+          }
+        })
+
+        return {
+          ...currentState,
+          cities: newCitiesData,
+        }
+      })
+
+      return {
+        ...state,
+        data: newData,
+      }
+    },
   },
 })
 
-export const { insertStatesData, selectState, selectCity, selectNeighborhood } =
-  locationsSlide.actions
+export const {
+  insertStatesData,
+  selectState,
+  selectCity,
+  selectNeighborhood,
+  removeState,
+  removeCity,
+  removeNeighborhood,
+} = locationsSlide.actions
 export default locationsSlide.reducer
