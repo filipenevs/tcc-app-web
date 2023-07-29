@@ -1,12 +1,16 @@
 import React, { useState } from 'react'
 import classNames from 'classnames'
+import { toast } from 'react-toastify'
 
-import { useAppDispatch, useAppSelector } from '../../hooks/redux'
-
-import { NeighborhoodCardProps } from './interface'
-import { selectNeighborhood } from '../../store/reducers/locations'
 import LocationsButtons from '../LocationsButtons/LocationsButtons'
 import ConfirmModal from '../ConfirmModal/ConfirmModal'
+
+import { useAppDispatch, useAppSelector } from '../../hooks/redux'
+import { selectNeighborhood } from '../../store/reducers/locations'
+
+import { NeighborhoodCardProps } from './interface'
+
+import NeighborhoodService from '../../api/services/neighborhood'
 
 const NeighborhoodCard: React.FC<NeighborhoodCardProps> = ({
   neighborhood: { id, name },
@@ -28,7 +32,18 @@ const NeighborhoodCard: React.FC<NeighborhoodCardProps> = ({
     setIsDeleteOpen((prevValue) => !prevValue)
   }
 
-  function handleOnConfirmDelete() {}
+  function handleOnConfirmDelete() {
+    NeighborhoodService.delete(id)
+      .then(() => {
+        toast.success('Bairro excluído com sucesso!')
+      })
+      .catch(({ message }) => {
+        toast.error(message)
+      })
+      .finally(() => {
+        setIsDeleteOpen(false)
+      })
+  }
 
   return (
     <>
