@@ -9,8 +9,8 @@ import SideBar from './components/SideBar/'
 import PageDivider from './components/PageDivider'
 import PageContainer from './components/PageContainer'
 
-import Users from './Pages/Users'
-import Locations from './Pages/Locations/Locations'
+import Users from './pages/Users'
+import Locations from './pages/Locations/Locations'
 
 import { useAppDispatch } from './hooks/redux'
 import { insertStatesData } from './store/reducers/locations'
