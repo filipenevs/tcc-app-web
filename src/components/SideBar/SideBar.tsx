@@ -1,5 +1,5 @@
 import { useEffect } from 'react'
-import { FaHouse, FaUsers } from 'react-icons/fa6'
+import { FaHouse, FaUsers, FaLocationDot } from 'react-icons/fa6'
 import { useLocation } from 'react-router-dom'
 import classNames from 'classnames'
 
@@ -17,6 +17,11 @@ const links = [
     label: 'Usuários',
     link: '/users',
     icon: FaUsers,
+  },
+  {
+    label: 'Localidades',
+    link: '/locations',
+    icon: FaLocationDot,
   },
 ] as const
 
