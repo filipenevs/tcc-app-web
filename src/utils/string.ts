@@ -5,3 +5,7 @@ export function normalize(text: string) {
     .normalize('NFD')
     .replace(/[\u0300-\u036f]/g, '')
 }
+
+export function formatGender(genderLetter: 'M' | 'F') {
+  return genderLetter === 'M' ? 'Masculino' : 'Feminino'
+}
