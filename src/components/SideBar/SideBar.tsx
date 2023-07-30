@@ -9,7 +9,7 @@ import { useAppSelector } from '../../hooks/redux'
 
 const links = [
   {
-    label: 'Home',
+    label: 'Início',
     link: '/',
     icon: FaHouse,
   },

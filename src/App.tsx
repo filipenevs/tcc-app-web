@@ -11,14 +11,15 @@ import PageContainer from './components/PageContainer'
 
 import Users from './pages/Users'
 import Locations from './pages/Locations/Locations'
+import Home from './pages/Home/Home'
 
 import { useAppDispatch } from './hooks/redux'
+
+import StateService from './api/services/state'
 import { insertStatesData } from './store/reducers/locations'
 
 import './App.css'
 import 'react-toastify/dist/ReactToastify.css'
-
-import StateService from './api/services/state'
 
 function App() {
   const dispatch = useAppDispatch()
@@ -53,7 +54,7 @@ function App() {
           <PageDivider />
           <PageContainer>
             <Routes>
-              <Route path="/" element={<></>} />
+              <Route path="/" element={<Home />} />
               <Route path="/users">
                 <Route path="/users" element={<Users />} />
               </Route>
