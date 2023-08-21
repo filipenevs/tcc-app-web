@@ -68,6 +68,38 @@ const locationsSlide = createSlice({
         },
       }
     },
+    createState(state, action: PayloadAction<Omit<State, 'cities'>>) {
+      if (!state.data) return state
+
+      const newData = [...state.data, { ...action.payload, cities: [] }].sort((a, b) =>
+        a.name.localeCompare(b.name),
+      )
+
+      return {
+        ...state,
+        data: newData,
+      }
+    },
+    updateStateData(state, action: PayloadAction<Omit<State, 'cities'>>) {
+      if (!state.data) return state
+
+      const { id, name, uf } = action.payload
+
+      const newData = state.data.map((currentState) => {
+        if (currentState.id !== id) return currentState
+
+        return {
+          ...currentState,
+          name,
+          uf,
+        }
+      })
+
+      return {
+        ...state,
+        data: newData,
+      }
+    },
     removeState(state, action: PayloadAction<string>) {
       if (!state.data) return state
 
@@ -138,6 +170,8 @@ export const {
   selectState,
   selectCity,
   selectNeighborhood,
+  createState,
+  updateStateData,
   removeState,
   removeCity,
   removeNeighborhood,
