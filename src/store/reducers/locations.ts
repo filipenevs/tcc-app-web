@@ -1,5 +1,5 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit'
-import { State } from '../../typings/address'
+import { City, Neighborhood, State } from '../../typings/address'
 
 interface AddressState {
   data: State[] | null
@@ -80,6 +80,62 @@ const locationsSlide = createSlice({
         data: newData,
       }
     },
+    createCity(state, { payload: city }: PayloadAction<City>) {
+      if (!state.data) return state
+
+      const newData = state.data.map((locationState) => {
+        if (locationState.id !== city.stateId) return locationState
+
+        const newCities = [...locationState.cities, { ...city, neighborhoods: [] }].sort(
+          (a, b) => a.name.localeCompare(b.name),
+        )
+
+        return {
+          ...locationState,
+          cities: newCities,
+        }
+      })
+
+      return {
+        ...state,
+        data: newData,
+      }
+    },
+    createNeighborhood(
+      state,
+      { payload }: PayloadAction<{ neighborhood: Neighborhood; stateId: string }>,
+    ) {
+      if (!state.data) return state
+
+      const { stateId, neighborhood } = payload
+
+      const newData = state.data.map((locationState) => {
+        if (locationState.id !== stateId) return locationState
+
+        const newCitiesData = locationState.cities.map((locationCity) => {
+          if (locationCity.id !== neighborhood.cityId) return locationCity
+
+          const newNeighborhoods = [...locationCity.neighborhoods, neighborhood].sort(
+            (a, b) => a.name.localeCompare(b.name),
+          )
+
+          return {
+            ...locationCity,
+            neighborhoods: newNeighborhoods,
+          }
+        })
+
+        return {
+          ...locationState,
+          cities: newCitiesData,
+        }
+      })
+
+      return {
+        ...state,
+        data: newData,
+      }
+    },
     updateStateData(state, action: PayloadAction<Omit<State, 'cities'>>) {
       if (!state.data) return state
 
@@ -92,6 +148,67 @@ const locationsSlide = createSlice({
           ...currentState,
           name,
           uf,
+        }
+      })
+
+      return {
+        ...state,
+        data: newData,
+      }
+    },
+    updateCityData(state, action: PayloadAction<Omit<City, 'neighborhood'>>) {
+      if (!state.data) return state
+
+      const { stateId } = action.payload
+
+      const newData = state.data.map((currentState) => {
+        if (currentState.id !== stateId) return currentState
+
+        return {
+          ...currentState,
+          cities: currentState.cities.map((city) => {
+            if (city.id !== action.payload.id) return city
+
+            return { ...action.payload, neighborhoods: [] }
+          }),
+        }
+      })
+
+      return {
+        ...state,
+        data: newData,
+      }
+    },
+    updateNeighborhood(
+      state,
+      { payload }: PayloadAction<{ neighborhood: Neighborhood; stateId: string }>,
+    ) {
+      if (!state.data) return state
+
+      const { stateId, neighborhood } = payload
+
+      const newData = state.data.map((locationState) => {
+        if (locationState.id !== stateId) return locationState
+
+        const newCitiesData = locationState.cities.map((locationCity) => {
+          if (locationCity.id !== neighborhood.cityId) return locationCity
+
+          return {
+            ...locationCity,
+            neighborhoods: locationCity.neighborhoods.map((locationNeighborhood) => {
+              if (locationNeighborhood.id !== neighborhood.id) return locationNeighborhood
+
+              return {
+                ...locationNeighborhood,
+                name: neighborhood.name,
+              }
+            }),
+          }
+        })
+
+        return {
+          ...locationState,
+          cities: newCitiesData,
         }
       })
 
@@ -171,7 +288,11 @@ export const {
   selectCity,
   selectNeighborhood,
   createState,
+  createCity,
+  createNeighborhood,
   updateStateData,
+  updateCityData,
+  updateNeighborhood,
   removeState,
   removeCity,
   removeNeighborhood,

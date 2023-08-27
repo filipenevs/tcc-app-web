@@ -2,7 +2,6 @@ import React, { useState } from 'react'
 import classNames from 'classnames'
 import { toast } from 'react-toastify'
 
-import LocationsButtons from '../LocationsButtons/LocationsButtons'
 import ConfirmModal from '../ConfirmModal/ConfirmModal'
 
 import { useAppDispatch, useAppSelector } from '../../hooks/redux'
@@ -11,9 +10,10 @@ import { removeNeighborhood, selectNeighborhood } from '../../store/reducers/loc
 import { NeighborhoodCardProps } from './interface'
 
 import NeighborhoodService from '../../api/services/neighborhood'
+import NeighborhoodForm from '../NeighborhoodForm/NeighborhoodForm'
 
 const NeighborhoodCard: React.FC<NeighborhoodCardProps> = ({
-  neighborhood: { id, name, cityId },
+  neighborhood,
   stateId,
 }) => {
   const dispatch = useAppDispatch()
@@ -21,7 +21,10 @@ const NeighborhoodCard: React.FC<NeighborhoodCardProps> = ({
     ({ locations }) => locations.selection,
   )
 
+  const { id, name, cityId } = neighborhood
+
   const [isDeleteOpen, setIsDeleteOpen] = useState(false)
+  const [isEditOpen, setIsEditOpen] = useState(false)
 
   const isSelectedNeighborhood = selectedNeighborhood === id
 
@@ -31,6 +34,10 @@ const NeighborhoodCard: React.FC<NeighborhoodCardProps> = ({
 
   function toggleDeleteModal() {
     setIsDeleteOpen((prevValue) => !prevValue)
+  }
+
+  function toggleEditModal() {
+    setIsEditOpen((prevValue) => !prevValue)
   }
 
   function handleOnConfirmDelete() {
@@ -56,6 +63,13 @@ const NeighborhoodCard: React.FC<NeighborhoodCardProps> = ({
           cancelButtonAction={toggleDeleteModal}
         />
       )}
+      {isEditOpen && (
+        <NeighborhoodForm
+          neighborhood={neighborhood}
+          closeFunction={toggleEditModal}
+          stateId={stateId}
+        />
+      )}
       <button
         className={classNames(
           'p-4 rounded-xl font-bold border-4 border-slate-300 hover:bg-slate-300 cursor-pointer text-left',
@@ -68,11 +82,20 @@ const NeighborhoodCard: React.FC<NeighborhoodCardProps> = ({
       {isSelectedNeighborhood && (
         <div className="flex flex-col ml-10 gap-2">
           <div className="flex justify-end">
-            <LocationsButtons
-              locationType="Bairro"
-              onClickEdit={console.log}
-              onClickDelete={toggleDeleteModal}
-            />
+            <div className='flex gap-2'>
+              <button
+                className="rounded-md bg-blue-500 hover:bg-blue-600 py-2 px-5 font-medium text-white"
+                onClick={toggleEditModal}
+              >
+                Editar Bairro
+              </button>
+              <button
+                className="rounded-md bg-red-500 hover:bg-red-600 py-2 px-5 font-medium text-white"
+                onClick={toggleDeleteModal}
+              >
+                Excluir Bairro
+              </button>
+            </div>
           </div>
         </div>
       )}
