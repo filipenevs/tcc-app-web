@@ -1,13 +1,5 @@
 import { Address } from './address'
 
-export interface UserFilter {
-  name: string
-  surname: string
-  email: string
-  cpf: string
-  gender: string
-}
-
 export interface User {
   id: string
   name: string

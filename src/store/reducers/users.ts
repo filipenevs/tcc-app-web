@@ -1,21 +1,35 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit'
-import { User, UserFilter } from '../../typings/user'
+import { User } from '../../typings/user'
+import { TypeFilterValue, TypeSortInfo } from '@inovua/reactdatagrid-community/types'
 
 interface UserState {
   data: User[] | null
   loading: boolean
-  filter: UserFilter
+  queryOptions: {
+    pagination: {
+      skip: number
+      limit: number
+    }
+    filters: TypeFilterValue
+    sortInfo: TypeSortInfo | null
+  }
 }
 
 const initialState: UserState = {
   data: null,
   loading: false,
-  filter: {
-    cpf: '',
-    email: '',
-    gender: '',
-    name: '',
-    surname: '',
+  queryOptions: {
+    pagination: {
+      skip: 0,
+      limit: 20,
+    },
+    filters: [
+      { name: 'email', type: 'string', operator: 'equals', value: '' },
+      { name: 'name', type: 'string', operator: 'equals', value: '' },
+      { name: 'surname', type: 'string', operator: 'equals', value: '' },
+      { name: 'cpf', type: 'string', operator: 'equals', value: '' },
+    ],
+    sortInfo: null,
   },
 }
 
@@ -37,11 +51,11 @@ const usersSlice = createSlice({
         data: action.payload,
       }
     },
-    insertFilter(state, action: PayloadAction<Partial<UserFilter>>) {
+    updateFilter(state, action: PayloadAction<Record<string, any>>) {
       return {
         ...state,
-        filter: {
-          ...state.filter,
+        queryOptions: {
+          ...state.queryOptions,
           ...action.payload,
         },
       }
@@ -69,6 +83,6 @@ const usersSlice = createSlice({
   },
 })
 
-export const { initLoading, insertUsersData, insertFilter, updateUser, deleteUser } =
+export const { initLoading, insertUsersData, updateFilter, updateUser, deleteUser } =
   usersSlice.actions
 export default usersSlice.reducer
