@@ -1,44 +1,111 @@
-import { useLayoutEffect } from 'react'
+import { useCallback } from 'react'
+import ReactDataGrid from '@inovua/reactdatagrid-community'
+import type { TypeColumn, TypeDataSource, TypeFilterValue, TypeRowProps, TypeSortInfo } from '@inovua/reactdatagrid-community/types'
+import { useNavigate } from 'react-router-dom'
 
 import PageTitle from '../../components/PageTitle/PageTitle'
 
-import { useAppDispatch } from '../../hooks/redux'
-import { initLoading, insertUsersData } from '../../store/reducers/users'
+import { useAppDispatch, useAppSelector } from '../../hooks/redux'
+import { updateFilter } from '../../store/reducers/users'
 
-import UsersService from '../../api/services/users'
-import UsersList from '../../components/UsersLists/UsersList'
-import ModalWrapper from '../../components/ModalWrapper/ModalWrapper'
+import UsersService, { UserFilters } from '../../api/services/users'
+
+import { formatDate } from '../../utils/date'
+
+import '@inovua/reactdatagrid-community/index.css'
+
+const columnDefs: TypeColumn[] = [
+  { name: 'email', header: 'E-mail', minWidth: 180, flex: 1, },
+  { name: 'name', header: 'Nome', minWidth: 150, flex: 1 },
+  { name: 'surname', header: 'Sobrenome', minWidth: 170, flex: 1 },
+  { name: 'cpf', header: 'Documento' },
+  { name: 'birthDate', header: 'Data de Nascimento', minWidth: 160, flex: 1, render: ({ value }) => (formatDate(new Date(value))) },
+  { name: 'gender', header: 'Gênero', render: ({ value }) => value === 'M' ? 'Masculino' : 'Feminino' },
+  { name: 'createdAt', header: 'Data de cadastro', minWidth: 160, flex: 1, render: ({ value }) => (formatDate(new Date(value))) },
+  { name: 'approved', header: 'Aprovado' }
+];
 
 const Users = () => {
   const dispatch = useAppDispatch()
+  const navigate = useNavigate();
+  const { pagination, filters, sortInfo } = useAppSelector(({ users }) => users.queryOptions)
 
-  async function getUsers() {
-    dispatch(initLoading())
-    const usersResponse = await UsersService.getAllUsers()
-    dispatch(insertUsersData(usersResponse))
+  function handleOnChangeGridFilters(filters: TypeFilterValue) {
+    dispatch(updateFilter({ filters }))
   }
 
-  useLayoutEffect(() => {
-    getUsers()
-  }, [])
+  function handleOnChangeGridSortInfo(sortInfo: TypeSortInfo) {
+    dispatch(updateFilter({ sortInfo }))
+  }
+
+  function handleOnChangeGridSkip(skip: number) {
+    dispatch(updateFilter({
+      pagination: {
+        ...pagination, skip: skip
+      }
+    }))
+  }
+
+  function handleOnChangeGridLimit(limit: number) {
+    dispatch(updateFilter({
+      pagination: {
+        ...pagination, limit: limit
+      }
+    }))
+  }
+
+  function handleOnUserRowClick({ data }: TypeRowProps) {
+    navigate(`./${data.id}`)
+  }
+
+  const loadData: TypeDataSource = async ({ skip, limit, sortInfo, filterValue = [] }) => {
+    const queryParams: UserFilters = {
+      page: skip / limit,
+      perPage: limit
+    }
+
+    if (sortInfo) {
+      queryParams.orderBy = sortInfo.name;
+      queryParams.order = sortInfo.dir > 0 ? 'asc' : 'desc'
+    }
+
+    const activeFilters = filterValue.filter(({ value }: any) => !!value)
+    const objectFilters = activeFilters.reduce((acc: any, { name, value }: any) => {
+      return {
+        ...acc,
+        [name]: value
+      }
+    }, {} as Record<string, string>)
+
+    const responseData = await UsersService.getAllUsers({ ...queryParams, ...objectFilters })
+
+    return ({
+      data: responseData.users,
+      count: responseData.totalCount
+    })
+  }
+
+  const dataSource = useCallback(loadData, []);
 
   return (
     <>
       <div className="flex justify-between">
         <PageTitle text="Usuários" />
-        <div className="flex gap-3">
-          <button className="rounded-md bg-slate-200 py-2 px-5 font-medium border-4 border-slate-200 hover:border-slate-300">
-            Filtros/Ordenação
-          </button>
-          <button
-            className="rounded-md bg-slate-300 py-2 px-5 font-medium border-4 border-slate-300 hover:border-slate-400"
-            onClick={getUsers}
-          >
-            Procurar
-          </button>
-        </div>
       </div>
-      <UsersList />
+      <ReactDataGrid
+        columns={columnDefs}
+        pagination
+        dataSource={dataSource}
+        skip={pagination.skip}
+        onSkipChange={handleOnChangeGridSkip}
+        defaultLimit={pagination.limit}
+        onLimitChange={handleOnChangeGridLimit}
+        defaultFilterValue={filters}
+        onFilterValueChange={handleOnChangeGridFilters}
+        sortInfo={sortInfo}
+        onSortInfoChange={handleOnChangeGridSortInfo}
+        onRowClick={handleOnUserRowClick}
+      />
     </>
   )
 }

@@ -1,11 +1,20 @@
 import { mainApi } from '..'
 
+export interface UserFilters extends Record<string, any> {
+  page?: number
+  perPage?: number
+  orderBy?: string
+  order?: 'asc' | 'desc'
+}
+
 class UsersService {
   static baseUrl = '/users'
 
-  static async getAllUsers() {
+  static async getAllUsers(filters: UserFilters) {
     try {
-      const response = await mainApi.get(`${this.baseUrl}/`)
+      const params = new URLSearchParams(filters)
+
+      const response = await mainApi.get(`${this.baseUrl}/?${params.toString()}`)
       return response.data
     } catch (error) {
       console.log(error)
