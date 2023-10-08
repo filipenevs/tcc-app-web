@@ -30,9 +30,12 @@ class UsersService {
     }
   }
 
-  static async approveUser(userId: string) {
+  static async changeStatus(userId: string, status: string, reason?: string) {
     try {
-      const response = await mainApi.post(`${this.baseUrl}/aproveUser/${userId}`)
+      const response = await mainApi.put(`${this.baseUrl}/status/${userId}`, {
+        status,
+        reason,
+      })
       return response.data
     } catch (error) {
       console.log(error)

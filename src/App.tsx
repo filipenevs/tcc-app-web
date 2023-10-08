@@ -10,8 +10,9 @@ import PageDivider from './components/PageDivider'
 import PageContainer from './components/PageContainer'
 
 import Users from './pages/Users'
-import Locations from './pages/Locations/Locations'
-import Home from './pages/Home/Home'
+import Locations from './pages/Locations'
+import Home from './pages/Home'
+import UserProfile from './pages/UserProfile'
 
 import { useAppDispatch } from './hooks/redux'
 
@@ -57,6 +58,7 @@ function App() {
               <Route path="/" element={<Home />} />
               <Route path="/users">
                 <Route path="/users" element={<Users />} />
+                <Route path="/users/:userId" element={<UserProfile />} />
               </Route>
               <Route path="/locations" element={<Locations />} />
             </Routes>
