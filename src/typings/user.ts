@@ -14,7 +14,7 @@ export interface User {
   preferenceId: string | null
   preference?: Preferences
   houses: House[]
-  approved: boolean
+  status: Status
 }
 
 export interface House {
@@ -30,3 +30,5 @@ export interface Preferences {
   maximumMetersBuilt: number
   neighborhoods: any[]
 }
+
+export type Status = 'pending' | 'rejected' | 'approved'
