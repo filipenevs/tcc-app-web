@@ -65,12 +65,7 @@ const StateCard: React.FC<StateCardProps> = ({ state }) => {
           cancelButtonAction={toggleDeleteModal}
         />
       )}
-      {isAddCityOpen && (
-        <CityForm
-          state={state}
-          closeFunction={toggleAddCityModal}
-        />
-      )}
+      {isAddCityOpen && <CityForm state={state} closeFunction={toggleAddCityModal} />}
       <div className="flex flex-col gap-2">
         <button
           className={classNames(
@@ -79,11 +74,13 @@ const StateCard: React.FC<StateCardProps> = ({ state }) => {
           )}
           onClick={handleOnStateClick}
         >
-          <span className='font-bold'>
+          <span className="font-bold">
             {name} - {uf}
           </span>
           <span>
-            {hasCity ? `${cities.length} cidade${cities.length > 1 ? 's' : ''}` : 'Sem cidades'}
+            {hasCity
+              ? `${cities.length} cidade${cities.length > 1 ? 's' : ''}`
+              : 'Sem cidades'}
           </span>
         </button>
 
@@ -91,7 +88,7 @@ const StateCard: React.FC<StateCardProps> = ({ state }) => {
           <div className="flex flex-col ml-10 gap-2">
             <div className="flex justify-between">
               <LocationsFilter locationType="Cidades" onChangeFilter={setCityQuery} />
-              <div className='flex gap-2'>
+              <div className="flex gap-2">
                 <button
                   className="rounded-md bg-green-500 hover:bg-green-600 py-2 px-5 font-medium text-white"
                   onClick={toggleAddCityModal}

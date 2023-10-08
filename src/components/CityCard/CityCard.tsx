@@ -16,9 +16,7 @@ import { normalize } from '../../utils/string'
 import CityForm from '../CityForm/CityForm'
 import NeighborhoodForm from '../NeighborhoodForm/NeighborhoodForm'
 
-const CityCard: React.FC<CityCardProps> = ({
-  city
-}) => {
+const CityCard: React.FC<CityCardProps> = ({ city }) => {
   const dispatch = useAppDispatch()
   const { city: selectedCity } = useAppSelector(({ locations }) => locations.selection)
 
@@ -75,17 +73,9 @@ const CityCard: React.FC<CityCardProps> = ({
           cancelButtonAction={toggleDeleteModal}
         />
       )}
-      {isAddCityOpen && (
-        <CityForm
-          city={city}
-          closeFunction={toggleAddCityModal}
-        />
-      )}
+      {isAddCityOpen && <CityForm city={city} closeFunction={toggleAddCityModal} />}
       {isAddNeighborhoodOpen && (
-        <NeighborhoodForm
-          city={city}
-          closeFunction={toggleAddNeighborhoodModal}
-        />
+        <NeighborhoodForm city={city} closeFunction={toggleAddNeighborhoodModal} />
       )}
       <button
         className={classNames(
@@ -94,11 +84,11 @@ const CityCard: React.FC<CityCardProps> = ({
         )}
         onClick={handleOnCityClick}
       >
-        <span className='font-bold'>
-          {name}
-        </span>
+        <span className="font-bold">{name}</span>
         <span>
-          {hasNeighborhood ? `${neighborhoods.length} bairro${neighborhoods.length > 1 ? 's' : ''}` : 'Sem Bairros'}
+          {hasNeighborhood
+            ? `${neighborhoods.length} bairro${neighborhoods.length > 1 ? 's' : ''}`
+            : 'Sem Bairros'}
         </span>
       </button>
       {isSelectedCity && (
@@ -108,7 +98,7 @@ const CityCard: React.FC<CityCardProps> = ({
               locationType=" Bairros"
               onChangeFilter={setNeighborhoodQuery}
             />
-            <div className='flex gap-2'>
+            <div className="flex gap-2">
               <button
                 className="rounded-md bg-green-500 hover:bg-green-600 py-2 px-5 font-medium text-white"
                 onClick={toggleAddNeighborhoodModal}

@@ -17,10 +17,11 @@ const CityForm: React.FC<CityFormProps> = ({ state, city, closeFunction }) => {
     setLoading(true)
 
     if (city) {
-      CityService.update({ ...city, name }).then((res) => {
-        dispatch(updateCityData(res))
-        toast.success('Cidade alterada com sucesso!')
-      })
+      CityService.update({ ...city, name })
+        .then((res) => {
+          dispatch(updateCityData(res))
+          toast.success('Cidade alterada com sucesso!')
+        })
         .catch(({ message }) => {
           toast.error(message)
         })
@@ -28,11 +29,12 @@ const CityForm: React.FC<CityFormProps> = ({ state, city, closeFunction }) => {
           closeFunction(false)
         })
     } else if (state) {
-      CityService.add(name, state.id).then((res) => {
-        console.log({ res })
-        dispatch(createCity(res))
-        toast.success('Cidade adicionada com sucesso!')
-      })
+      CityService.add(name, state.id)
+        .then((res) => {
+          console.log({ res })
+          dispatch(createCity(res))
+          toast.success('Cidade adicionada com sucesso!')
+        })
         .catch(({ message }) => {
           toast.error(message)
         })
@@ -54,12 +56,16 @@ const CityForm: React.FC<CityFormProps> = ({ state, city, closeFunction }) => {
     <ModalWrapper closeFunction={closeFunction}>
       <div className="flex flex-col gap-4">
         <span className="text-xl font-bold">{city ? 'Alterar' : 'Adicionar'} Cidade</span>
-        <span>{
-          city ? `Cidade: ${city.name}` : `Estado: ${state?.name}`
-        }</span>
-        <div className='flex flex-col gap-2'>
-          <span className='font-bold'>Nome</span>
-          <input type="text" autoFocus className='p-4 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600' value={name} onChange={handleOnChangeName} />
+        <span>{city ? `Cidade: ${city.name}` : `Estado: ${state?.name}`}</span>
+        <div className="flex flex-col gap-2">
+          <span className="font-bold">Nome</span>
+          <input
+            type="text"
+            autoFocus
+            className="p-4 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600"
+            value={name}
+            onChange={handleOnChangeName}
+          />
         </div>
 
         <div className="flex justify-end gap-3">
@@ -79,7 +85,8 @@ const CityForm: React.FC<CityFormProps> = ({ state, city, closeFunction }) => {
           </button>
         </div>
       </div>
-    </ModalWrapper>)
+    </ModalWrapper>
+  )
 }
 
 export default CityForm

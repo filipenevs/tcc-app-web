@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react'
 import { NeighborhoodFormProps } from './interface'
 import ModalWrapper from '../ModalWrapper/ModalWrapper'
@@ -8,7 +7,12 @@ import { toast } from 'react-toastify'
 import { createNeighborhood, updateNeighborhood } from '../../store/reducers/locations'
 import NeighborhoodService from '../../api/services/neighborhood'
 
-const NeighborhoodForm: React.FC<NeighborhoodFormProps> = ({ city, neighborhood, closeFunction, stateId }) => {
+const NeighborhoodForm: React.FC<NeighborhoodFormProps> = ({
+  city,
+  neighborhood,
+  closeFunction,
+  stateId,
+}) => {
   const dispatch = useAppDispatch()
 
   const [name, setName] = useState(neighborhood?.name ?? '')
@@ -18,21 +22,24 @@ const NeighborhoodForm: React.FC<NeighborhoodFormProps> = ({ city, neighborhood,
     setLoading(true)
 
     if (neighborhood) {
-      NeighborhoodService.update({ ...neighborhood, name }).then((res) => {
-        dispatch(updateNeighborhood({ neighborhood: res, stateId: stateId ?? '' }))
-        toast.success('Bairro alterado com sucesso!')
-      })
+      NeighborhoodService.update({ ...neighborhood, name })
+        .then((res) => {
+          dispatch(updateNeighborhood({ neighborhood: res, stateId: stateId ?? '' }))
+          toast.success('Bairro alterado com sucesso!')
+        })
         .catch(({ message }) => {
           toast.error(message)
         })
         .finally(() => {
           closeFunction(false)
         })
-    } if (city) {
-      NeighborhoodService.add(name, city.id).then((res) => {
-        dispatch(createNeighborhood({ neighborhood: res, stateId: city.stateId }))
-        toast.success('Bairro adicionado com sucesso!')
-      })
+    }
+    if (city) {
+      NeighborhoodService.add(name, city.id)
+        .then((res) => {
+          dispatch(createNeighborhood({ neighborhood: res, stateId: city.stateId }))
+          toast.success('Bairro adicionado com sucesso!')
+        })
         .catch(({ message }) => {
           toast.error(message)
         })
@@ -53,13 +60,19 @@ const NeighborhoodForm: React.FC<NeighborhoodFormProps> = ({ city, neighborhood,
   return (
     <ModalWrapper closeFunction={closeFunction}>
       <div className="flex flex-col gap-4">
-        <span className="text-xl font-bold">{neighborhood ? 'Alterar' : 'Adicionar'} Bairro</span>
-        <span>{
-          city ? `Cidade: ${city.name}` : `Bairro: ${neighborhood?.name}`
-        }</span>
-        <div className='flex flex-col gap-2'>
-          <span className='font-bold'>Nome</span>
-          <input type="text" autoFocus className='p-4 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600' value={name} onChange={handleOnChangeName} />
+        <span className="text-xl font-bold">
+          {neighborhood ? 'Alterar' : 'Adicionar'} Bairro
+        </span>
+        <span>{city ? `Cidade: ${city.name}` : `Bairro: ${neighborhood?.name}`}</span>
+        <div className="flex flex-col gap-2">
+          <span className="font-bold">Nome</span>
+          <input
+            type="text"
+            autoFocus
+            className="p-4 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600"
+            value={name}
+            onChange={handleOnChangeName}
+          />
         </div>
 
         <div className="flex justify-end gap-3">
@@ -79,7 +92,8 @@ const NeighborhoodForm: React.FC<NeighborhoodFormProps> = ({ city, neighborhood,
           </button>
         </div>
       </div>
-    </ModalWrapper>)
+    </ModalWrapper>
+  )
 }
 
 export default NeighborhoodForm

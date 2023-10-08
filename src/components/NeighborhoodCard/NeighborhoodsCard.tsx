@@ -12,10 +12,7 @@ import { NeighborhoodCardProps } from './interface'
 import NeighborhoodService from '../../api/services/neighborhood'
 import NeighborhoodForm from '../NeighborhoodForm/NeighborhoodForm'
 
-const NeighborhoodCard: React.FC<NeighborhoodCardProps> = ({
-  neighborhood,
-  stateId,
-}) => {
+const NeighborhoodCard: React.FC<NeighborhoodCardProps> = ({ neighborhood, stateId }) => {
   const dispatch = useAppDispatch()
   const { neighborhood: selectedNeighborhood } = useAppSelector(
     ({ locations }) => locations.selection,
@@ -82,7 +79,7 @@ const NeighborhoodCard: React.FC<NeighborhoodCardProps> = ({
       {isSelectedNeighborhood && (
         <div className="flex flex-col ml-10 gap-2">
           <div className="flex justify-end">
-            <div className='flex gap-2'>
+            <div className="flex gap-2">
               <button
                 className="rounded-md bg-blue-500 hover:bg-blue-600 py-2 px-5 font-medium text-white"
                 onClick={toggleEditModal}
