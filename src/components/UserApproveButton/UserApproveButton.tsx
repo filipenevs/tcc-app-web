@@ -3,13 +3,13 @@ import React, { useState } from 'react'
 import ConfirmModal from '../ConfirmModal/ConfirmModal'
 
 import { UserApproveButtonProps } from './interface'
-import UsersService from '../../api/services/users'
-import { useAppDispatch } from '../../hooks/redux'
-import { updateUser } from '../../store/reducers/users'
+// import UsersService from '../../api/services/users'
+// import { useAppDispatch } from '../../hooks/redux'
+// import { updateUser } from '../../store/reducers/users'
 
-const UserApproveButton: React.FC<UserApproveButtonProps> = ({ userId }) => {
+const UserApproveButton: React.FC<UserApproveButtonProps> = () => {
   const [isConfirmOpen, setIsConfirmOpen] = useState(false)
-  const dispatch = useAppDispatch()
+  // const dispatch = useAppDispatch()
 
   async function handleOnClickAprroveButton(
     event: React.MouseEvent<HTMLButtonElement, MouseEvent>,
@@ -20,8 +20,8 @@ const UserApproveButton: React.FC<UserApproveButtonProps> = ({ userId }) => {
 
   async function approveUser() {
     setIsConfirmOpen(false)
-    const userData = await UsersService.approveUser(userId)
-    dispatch(updateUser(userData))
+    // const userData = await UsersService.approveUser(userId)
+    // dispatch(updateUser(userData))
   }
 
   function closeConfirmModal() {

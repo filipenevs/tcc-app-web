@@ -4,12 +4,12 @@ import ConfirmModal from '../ConfirmModal/ConfirmModal'
 
 import { UserDeleteButtonProps } from './interface'
 import UsersService from '../../api/services/users'
-import { useAppDispatch } from '../../hooks/redux'
-import { deleteUser as deleteUserAction } from '../../store/reducers/users'
+// import { useAppDispatch } from '../../hooks/redux'
+// import { deleteUser as deleteUserAction } from '../../store/reducers/users'
 
 const UserDeleteButton: React.FC<UserDeleteButtonProps> = ({ userId }) => {
   const [isConfirmOpen, setIsConfirmOpen] = useState(false)
-  const dispatch = useAppDispatch()
+  // const dispatch = useAppDispatch()
 
   async function handleOnClickDeleteButton(
     event: React.MouseEvent<HTMLButtonElement, MouseEvent>,
@@ -21,7 +21,7 @@ const UserDeleteButton: React.FC<UserDeleteButtonProps> = ({ userId }) => {
   async function deleteUser() {
     setIsConfirmOpen(false)
     await UsersService.deleteUser(userId)
-    dispatch(deleteUserAction(userId))
+    // dispatch(deleteUserAction(userId))
   }
 
   function closeConfirmModal() {

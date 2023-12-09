@@ -1,5 +1,3 @@
-import React from 'react'
-
 import PageTitle from '../../components/PageTitle/PageTitle'
 import UserProfileForm from '../../components/UserProfileForm/UserProfileForm'
 
